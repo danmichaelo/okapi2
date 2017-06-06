@@ -1,9 +1,25 @@
 'use strict';
 
+var path = require('path');
 var loopback = require('loopback');
 var boot = require('loopback-boot');
-
+var mode = process.env.NODE_ENV || 'development';
 var app = module.exports = loopback();
+
+if(mode === 'development') {
+  var webpack = require('webpack');
+  var webpackDevMiddleware = require('webpack-dev-middleware');
+  var webpackHotMiddleware = require('webpack-hot-middleware');
+  var webpackConfig = require('../webpack.config.js');
+  var compiler = webpack(webpackConfig);
+
+  // only need in development
+  app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }));
+  // allow loopback to locate files built by webpack
+  // match path to /static
+  app.use('../static', loopback.static('./static'))
+  app.use(webpackHotMiddleware(compiler));
+}
 
 app.start = function() {
   // start the web server
