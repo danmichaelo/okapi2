@@ -1,0 +1,25 @@
+{
+  "name": "biblio",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "subjects": {
+      "type": [
+        "object"
+      ]
+    },
+    "publisher": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

@@ -1,19 +1,34 @@
 <template>
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <main class="mdl-layout__content">
-      App.vue
-      <router-view></router-view>
-      <div class="mdl-layout-spacer"></div>
-    </main>
+  <div>
+    <form action="#" v-on:submit.prevent="submitForm">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%;">
+        <input class="mdl-textfield__input" type="text" id="searchfield" v-model="query">
+        <label class="mdl-textfield__label" for="searchfield">Søke litt da vel...</label>
+      </div>
+    </form>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  created: function () {
+    console.log('Hello, Search created')
+    this.getQueryString()
+  },
+  data: () => ({
+    query: ''
+  }),
+  watch: {
+    // call again the method if the route changes
+    '$route': 'getQueryString'
+  },
+  methods: {
+    submitForm: function () {
+      this.$router.push({ path: '/search', query: { q: this.query } })
+    },
+    getQueryString: function () {
+      this.query = this.$route.query.q
     }
   }
 }
@@ -24,11 +39,12 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
-
+.content-grid {
+  max-width: 960px;
+}
+/*
 h1, h2 {
   font-weight: normal;
 }
@@ -45,5 +61,5 @@ li {
 
 a {
   color: #42b983;
-}
+}*/
 </style>

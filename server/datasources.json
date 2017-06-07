@@ -1,1 +1,15 @@
-{}
+{
+  "ElasticSearch": {
+    "name": "ElasticSearch",
+    "index": "okapi",
+    "hosts": [
+      {
+        "host": "127.0.0.1",
+        "port": 9200
+      }
+    ],
+    "apiVersion": "5.x",
+    "defaultSize": "50",
+    "connector": "es"
+  }
+}
