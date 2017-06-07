@@ -14,9 +14,9 @@
     ]
   },
   "biblio": {
-    "dataSource": "ElasticSearch",
-    "log": "trace",
+    "dataSource": "es-okapi",
     "public": true,
+    "log": "trace",
     "options": {
       "remoting": {
         "sharedMethods": {
@@ -24,6 +24,20 @@
           "find": true,
           "findById": true,
           "query": true
+        }
+      }
+    }
+  },
+  "authority": {
+    "dataSource": "es-authority",
+    "public": true,
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "*": false,
+          "find": true,
+          "findById": true,
+          "complete": true
         }
       }
     }

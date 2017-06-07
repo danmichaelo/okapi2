@@ -1,0 +1,23 @@
+{
+  "name": "authority",
+  "plural": "authorities",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "terms": {
+      "type": [
+        "string"
+      ]
+    },
+    "prefLabel": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

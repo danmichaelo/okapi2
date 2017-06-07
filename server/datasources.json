@@ -1,6 +1,6 @@
 {
-  "ElasticSearch": {
-    "name": "ElasticSearch",
+  "es-okapi": {
+    "name": "es-okapi",
     "index": "okapi",
     "hosts": [
       {
@@ -11,5 +11,25 @@
     "apiVersion": "5.x",
     "defaultSize": "50",
     "connector": "es"
+  },
+  "es-authority": {
+    "name": "es-authority",
+    "index": "authority",
+    "hosts": [
+      {
+        "host": "127.0.0.1",
+        "port": 9200
+      }
+    ],
+    "apiVersion": "5.x",
+    "defaultSize": "10",
+    "connector": "es",
+    "mappings": [
+      {
+        "name": "authority",
+        "index": "authority",
+        "type": "record"
+      }
+    ]
   }
 }
