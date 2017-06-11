@@ -17,6 +17,18 @@
       "extended": true,
       "limit": "100kb"
     },
-    "cors": false
+    "cors": false,
+    "sharedMethods": {
+      "patchOrCreate": false,
+      "replaceOrCreate": false,
+      "create": false,
+      "patchAttributes": false,
+      "replaceById": false,
+      "deleteById": false,
+      "createChangeStream": false,
+      "replaceOrCreate": false,
+      "updateAll": false,
+      "upsertWithWhere": false
+    }
   }
 }

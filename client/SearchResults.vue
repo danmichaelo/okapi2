@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-show="busy">Hold on…</div>
-    <div v-show="!busy">Got {{ documents.length }} results</div>
-    <ul class="mdl-list">
-      <document :doc="doc" v-for="doc in documents" :key="doc.id"></document>
-    </ul>
+    <div v-show="!busy">Got {{ documents.length }} of {{ total }} results</div>
+
+    <document :doc="doc" v-for="doc in documents" :key="doc.id"></document>
+
   </div>
 </template>
 
@@ -30,6 +30,7 @@ export default {
   data: function () {
     return {
       documents: [],
+      total: 0,
       //totalResults: 0,
       busy: true
     }
@@ -44,8 +45,9 @@ export default {
       let documents = this.$resource('/api/biblios/query')
 
       documents.query({q: q}).then((response) => {
-        console.log('Got ' + response.body.length + ' results')
-        this.documents = response.body
+        console.log('Got ' + response.body.data.length + ' results')
+        this.documents = response.body.data;
+        this.total = response.body.total;
         // this.totalResults = response.body.total
         this.busy = false
       }, (response) => {

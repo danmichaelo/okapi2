@@ -14,3 +14,7 @@ npm run dev
 # build for production with minification
 npm run build
 ```
+
+
+Eh ja
+http://querybuilder.js.org/

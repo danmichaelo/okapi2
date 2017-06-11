@@ -1,23 +1,34 @@
 <template>
-  <div>
-    <form action="#" v-on:submit.prevent="submitForm">
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width:100%;">
-        <input class="mdl-textfield__input" type="text" id="searchfield" v-model="query">
-        <label class="mdl-textfield__label" for="searchfield">Søke litt da vel...</label>
+  <div class="mdl-grid mdl-grid--no-spacing">
+    <div class="mdl-cell mdl-cell--8-col">
+      <div style="padding:16px">
+        <form action="#" v-on:submit.prevent="submitForm">
+          <searchfield v-model="query" v-on:custom="submitForm"></searchfield>
+        </form>
+        <router-view></router-view>
       </div>
-    </form>
-    <router-view></router-view>
+    </div>
+    <div style="min-height: calc(100vh - 64px);" class="mdl-cell mdl-cell--4-col mdl-shadow--2dp mdl-color--white">
+
+    </div>
   </div>
 </template>
 
 <script>
+import SearchField from './SearchField.vue';
+
 export default {
+  components: {
+    searchfield: SearchField
+  },
+  mounted: function () {
+  },
   created: function () {
     console.log('Hello, Search created')
     this.getQueryString()
   },
   data: () => ({
-    query: ''
+    query: 'OST'
   }),
   watch: {
     // call again the method if the route changes
@@ -25,6 +36,7 @@ export default {
   },
   methods: {
     submitForm: function () {
+      console.log('Submit form', this.query)
       this.$router.push({ path: '/search', query: { q: this.query } })
     },
     getQueryString: function () {
@@ -41,25 +53,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-.content-grid {
-  max-width: 960px;
+.mdl-card {
+    overflow: visible;
+    z-index: auto;
 }
-/*
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}*/
 </style>

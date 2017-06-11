@@ -47,7 +47,7 @@ module.exports = function(Authority) {
 
   Authority.remoteMethod('complete', {
     http: { verb: 'get' },
-    description: 'ElasticSearch auto-completion',
+    description: 'Find autocomplete suggestions',
     accepts: {arg: 'q', type: 'string'},
     returns: {arg: 'data', type: ['object'], root: true}
   });

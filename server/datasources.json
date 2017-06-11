@@ -28,7 +28,8 @@
       {
         "name": "authority",
         "index": "authority",
-        "type": "record"
+        "type": "record",
+        "properties": {}
       }
     ]
   }
