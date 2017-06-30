@@ -23,7 +23,7 @@
         <subject
           :data="subject"
           v-for="(subject, idx) in doc.classifications"
-          v-if="subject.system == 'ddc'"
+          v-if="subject.system.match(/^(ddc|utklklass|msc)$/)"
           :key="doc.id + '-' + idx + '-c'"
           :unique-id="doc.id + '-' + idx + '-c'"></subject>
       </div>
