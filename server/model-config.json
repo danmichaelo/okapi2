@@ -20,7 +20,8 @@
     "options": {
       "remoting": {
         "sharedMethods": {
-          "query": true
+          "query": true,
+          "scroll": true
         }
       }
     }
