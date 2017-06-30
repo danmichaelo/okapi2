@@ -18,7 +18,7 @@ module.exports = function(Authority) {
       type: 'record',
       body: {
         suggest: {
-          'term' : {
+          term : {
             prefix : q,
             completion : {
               field : 'suggest'
@@ -31,7 +31,7 @@ module.exports = function(Authority) {
 
       console.log('Got data')
       if (!response.suggest) {
-        cb(error, []);
+        return cb(error, []);
       }
       console.log(response.suggest.term)
 
