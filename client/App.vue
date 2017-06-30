@@ -1,6 +1,17 @@
 <template>
   <div class="mdl-grid mdl-grid--no-spacing">
     <div class="mdl-cell mdl-cell--8-col">
+      <!--
+      <div class="mdl-color--red mdl-color-text--red-50" style="padding:16px;">
+        Status 27. juni: Problemer med OAI-PMH-tjenesten.
+        Venter på at en ny eksport-jobb i Alma skal starte.
+      </div>
+      -->
+      <div class="mdl-color--orange mdl-color-text--orange-50" style="padding:16px;" v-if="status.status != 'done'">
+        Re-indeksering pågår. Resultatlista kan være ufullstendig.
+        Detaljer:
+        {{ status.info }}
+      </div>
       <div style="padding:16px">
         <form action="#" v-on:submit.prevent="submitForm">
           <searchfield v-model="query" v-on:custom="submitForm"></searchfield>
@@ -26,9 +37,11 @@ export default {
   created: function () {
     console.log('Hello, Search created')
     this.getQueryString()
+    this.getStatus()
   },
   data: () => ({
-    query: 'OST'
+    query: '',
+    status: {status: 'done', info: ''},
   }),
   watch: {
     // call again the method if the route changes
@@ -41,6 +54,12 @@ export default {
     },
     getQueryString: function () {
       this.query = this.$route.query.q
+    },
+    getStatus: function () {
+      this.$http.get('/harvest-status.json').then(response => {
+        this.status = response.body
+        setTimeout(this.getStatus, 1000)
+      })
     }
   }
 }
