@@ -68,13 +68,14 @@ module.exports = function(Biblio) {
   /**
    * Interface to ElasticSearch Scroll Api
    */
-  Biblio.scroll = function (scroll_id, cb) {
+  Biblio.scroll = function (scrollId, cb) {
     var connector = Biblio.dataSource.connector
     var modelName = Biblio.definition.name
     var idName = connector.idName(modelName)
+    console.log('Scroll ID:', scrollId)
 
     connector.db.scroll({
-      scroll_id: scroll_id,
+      scroll_id: scrollId,
       scroll: '1m',
     }, function (error, response) {
       if (error) console.error(error);
