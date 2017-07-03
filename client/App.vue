@@ -1,16 +1,13 @@
 <template>
   <div class="mdl-grid mdl-grid--no-spacing">
     <div class="mdl-cell mdl-cell--8-col">
-      <!--
-      <div class="mdl-color--red mdl-color-text--red-50" style="padding:16px;">
-        Status 27. juni: Problemer med OAI-PMH-tjenesten.
-        Venter på at en ny eksport-jobb i Alma skal starte.
-      </div>
-      -->
       <div class="mdl-color--orange mdl-color-text--orange-50" style="padding:16px;" v-if="status.status != 'done'">
         Re-indeksering pågår. Resultatlista kan være ufullstendig.
-        Detaljer:
+        Siste oppdatering for {{ status.age }} sekunder siden:
         {{ status.info }}
+      </div>
+      <div class="mdl-color--red mdl-color-text--red-50" style="padding:16px;" v-if="status.age > 300">
+        Mer enn 5 minutter siden siste oppdatering. Re-indekseringen kan ha kræsjet.
       </div>
       <div style="padding:16px">
         <form action="#" v-on:submit.prevent="submitForm">
@@ -58,6 +55,7 @@ export default {
     getStatus: function () {
       this.$http.get('/harvest-status.json').then(response => {
         this.status = response.body
+        this.status.age = Math.round((new Date()).getTime()/1000 - this.status.timestamp);
         setTimeout(this.getStatus, 1000)
       })
     }
