@@ -11,13 +11,18 @@ module.exports = function(Biblio) {
     var modelName = Biblio.definition.name;
     var idName = connector.idName(modelName)
 
+    if (q) {
+      q = q.replace(/realfagstermer:/g, 'noubomn:')
+    }
+
     console.log(`Query: ${q}, idName: ${idName}, modelName: ${modelName}, from: ${from}, size: ${size}`)
 
     var args = {
       index: 'okapi',
       q: q,
       from: from || 0,
-      size: size || 50
+      size: size || 50,
+    }
 
     if (sort) {
       order = order || 'desc'
@@ -28,14 +33,16 @@ module.exports = function(Biblio) {
       args.scroll = '1m'   // no need for any longer
     }
 
+    console.log(args)
+
     connector.db.search(args, function (error, response) {
       if (error) {
         console.error(error)
         return cb(error, null);
       }
 
-      var results = [];
-      var total = 0;
+      var results = []
+      var total = 0
       if (response.hits) {
         total = response.hits.total;
         response.hits.hits.forEach(function (item) {
