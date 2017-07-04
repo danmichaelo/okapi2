@@ -1,7 +1,8 @@
 <template>
   <div>
     <div v-show="busy">Hold on…</div>
-    <div v-show="!busy">Got {{ documents.length }} of {{ total }} results</div>
+    <div v-show="!busy">Fetched {{ documents.length }} of {{ total }} results</div>
+    <div v-show="error" style="color:red;">{{error}}</div>
 
     <document :doc="doc" v-for="doc in documents" :key="doc.id"></document>
 
@@ -32,17 +33,18 @@ export default {
       documents: [],
       total: 0,
       //totalResults: 0,
-      busy: true
+      busy: true,
+      error: '',
     }
   },
   methods: {
     fetchResults: function () {
-      var q = this.$route.query.q;
-      q = q.replace(/realfagstermer:/g, 'noubomn:')
+      const q = this.$route.query.q
       const sort = this.$route.query.sort
       const order = this.$route.query.order
       this.documents = []
       this.busy = true
+      this.error = ''
       console.log('Searching for: ' + q)
       let documents = this.$resource('/api/biblios/query')
 
@@ -55,6 +57,14 @@ export default {
       }, (response) => {
         // error callback
         console.log(response)
+        if (response.body.error.msg !== undefined) {
+          this.error = response.body.error.msg
+        }
+        if (response.body.error.message !== undefined) {
+          this.error = response.body.error.message
+        }
+        this.documents = []
+        this.total = 0
         this.busy = false
       })
     }

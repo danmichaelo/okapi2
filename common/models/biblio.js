@@ -29,7 +29,10 @@ module.exports = function(Biblio) {
     }
 
     connector.db.search(args, function (error, response) {
-      if (error) console.error(error);
+      if (error) {
+        console.error(error)
+        return cb(error, null);
+      }
 
       var results = [];
       var total = 0;
