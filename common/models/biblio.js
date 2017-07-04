@@ -6,7 +6,7 @@ module.exports = function(Biblio) {
    * Search using ElasticSearch Query String Query instead of
    * using the JSON filter syntax by Loopback
    */
-  Biblio.query = function (q, from, size, scroll, cb) {
+  Biblio.query = function (q, from, size, scroll, sort, order, cb) {
     var connector = Biblio.dataSource.connector
     var modelName = Biblio.definition.name;
     var idName = connector.idName(modelName)
@@ -18,6 +18,10 @@ module.exports = function(Biblio) {
       q: q,
       from: from || 0,
       size: size || 50
+
+    if (sort) {
+      order = order || 'desc'
+      args.sort = `${sort}:${order}`
     }
 
     if (scroll) {
@@ -46,6 +50,7 @@ module.exports = function(Biblio) {
     });
   }
 
+  Biblio.validatesInclusionOf('order', {in: ["asc", "desc"]});
   Biblio.remoteMethod('query', {
     http: { verb: 'get' },
     description: 'Find instances matching an ElasticSearch Query String Query (instead of using the Loopback JSON filter syntax)',
@@ -54,6 +59,8 @@ module.exports = function(Biblio) {
       {arg: 'from', type: 'integer'},
       {arg: 'size', type: 'integer', description: 'Result set size. If a set larger than 10000 is needed, use scroll.'},
       {arg: 'scroll', type: 'boolean', description: 'Set to true to return a "scroll_id" that you can use with the scroll API to return large datasets. The returned ID is always valid for 1 minute.'},
+      {arg: 'sort', type: 'string', description: 'Field to sort by.'},
+      {arg: 'order', type: 'string', description: 'Sort order ("asc" or "desc").'},
     ],
     returns: [{
       root: true,

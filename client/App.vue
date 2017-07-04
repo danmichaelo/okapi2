@@ -11,7 +11,10 @@
       </div>
       <div style="padding:16px">
         <form action="#" v-on:submit.prevent="submitForm">
-          <searchfield v-model="query" v-on:custom="submitForm"></searchfield>
+          <searchfield v-model="query" v-on:submit="submitForm"></searchfield>
+          sort: <input type="text" v-model="sort">, order: <input type="text" v-model="order">.
+          Note: OR is the default operator.
+          <button type="submit">søk</button>
         </form>
         <router-view></router-view>
       </div>
@@ -39,6 +42,8 @@ export default {
   data: () => ({
     query: '',
     status: {status: 'done', info: ''},
+    sort: 'pub_year',
+    order: 'desc',
   }),
   watch: {
     // call again the method if the route changes
@@ -47,10 +52,12 @@ export default {
   methods: {
     submitForm: function () {
       console.log('Submit form', this.query)
-      this.$router.push({ path: '/search', query: { q: this.query } })
+      this.$router.push({ path: '/search', query: { q: this.query, sort: this.sort, order: this.order } })
     },
     getQueryString: function () {
       this.query = this.$route.query.q
+      this.sort = this.$route.query.sort || 'pub_year'
+      this.order = this.$route.query.order || 'desc'
     },
     getStatus: function () {
       this.$http.get('/harvest-status.json').then(response => {

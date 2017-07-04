@@ -39,12 +39,14 @@ export default {
     fetchResults: function () {
       var q = this.$route.query.q;
       q = q.replace(/realfagstermer:/g, 'noubomn:')
+      const sort = this.$route.query.sort
+      const order = this.$route.query.order
       this.documents = []
       this.busy = true
       console.log('Searching for: ' + q)
       let documents = this.$resource('/api/biblios/query')
 
-      documents.query({q: q}).then((response) => {
+      documents.query({q: q, sort: sort, order: order}).then((response) => {
         console.log('Got ' + response.body.data.length + ' results')
         this.documents = response.body.data;
         this.total = response.body.total;
